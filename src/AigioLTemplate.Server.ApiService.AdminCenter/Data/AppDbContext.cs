@@ -35,8 +35,9 @@ public sealed partial class AppDbContext
 
 #if PROJ_DBCONTEXT_BM
 partial class AppDbContext(
-    DbContextOptions<AppDbContext> options) :
-    BMDbContextBase<BMUser, BMRole, BMUserRole>(options);
+    DbContextOptions<AppDbContext> options,
+    IHttpContextAccessor httpContextAccessor) :
+    BMDbContextBase<BMUser, BMRole, BMUserRole>(options, httpContextAccessor);
 #else
 partial class AppDbContext(
     DbContextOptions<AppDbContext> options) :
@@ -74,6 +75,11 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseNpgsql("");
 
+#if PROJ_DBCONTEXT_BM
+        IHttpContextAccessor httpContextAccessor = null!; // 设计时不需要 HttpContext
+        return new AppDbContext(optionsBuilder.Options, httpContextAccessor);
+#else
         return new AppDbContext(optionsBuilder.Options);
+#endif
     }
 }

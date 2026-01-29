@@ -12,6 +12,13 @@
 
 ![eShop Reference Application architecture diagram](res/eshop_architecture.png)
 
+### 模板重命名（重命名后删除此）
+1. 编译 AigioLTemplate.Server.BuildTools
+2. 运行命令
+```
+AigioLTemplate.Server.BuildTools.exe rename --projName 项目名称 --projNameLower 项目名称全小写 --notTrimServer true --webProtStart 19000
+```
+
 ### 机密值存储位置
 [使用 ASP.NET Core 安全地存储开发中的应用机密](https://learn.microsoft.com/zh-cn/aspnet/core/security/app-secrets)  
 

@@ -2,21 +2,30 @@ using AigioL.Common.AspNetCore.AdminCenter;
 using AigioL.Common.AspNetCore.AdminCenter.Entities;
 using AigioL.Common.AspNetCore.AdminCenter.Models;
 using AigioL.Common.AspNetCore.AdminCenter.Policies.Handlers;
+using AigioL.Common.AspNetCore.AdminCenter.Services.Abstractions;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
+using AigioL.Common.JsonWebTokens.Services;
+using AigioL.Common.JsonWebTokens.Services.Abstractions;
 using AigioLTemplate.Server.ApiService.AdminCenter.Models;
+using AigioLTemplate.Server.ApiService.AdminCenter.Services;
 using AigioLTemplate.Server.ApiService.Data;
+using AigioLTemplate.Server.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
 const bool UseHttps = true;
+const bool ignoreInfoController = false;
 unsafe
 {
     ProgramHelper.M(Path.GetFileNameWithoutExtension(Environment.ProcessPath!), args, &ConfigureServices, &Configure);
@@ -46,6 +55,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddBMBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -98,8 +116,13 @@ static void ConfigureServices(WebApplicationBuilder builder)
 #endif
         builder);
     builder.Services.AddDbContext2<AppDbContext>(options =>
-        options.UseNpgsql(connectionStringAC)
-    );
+    {
+        options.UseNpgsql(connectionStringAC);
+        options.ConfigureWarnings(warnings =>
+        {
+            warnings.Ignore(RelationalEventId.PendingModelChangesWarning);
+        });
+    });
     // https://learn.microsoft.com/zh-cn/dotnet/aspire/database/postgresql-entity-framework-integration?tabs=dotnet-cli#enrich-an-npgsql-database-context
     //builder.EnrichNpgsqlDbContext<ACDbContext>(
     //    configureSettings: settings =>
@@ -117,6 +140,26 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加管理后台仓储层服务
     builder.Services.AddACRepositories<AppDbContext, BMUser, BMRole, BMUserRole>();
+    builder.Services.AddAnalyticsRepositories<AppDbContext>();
+    builder.Services.AddBasicRepositories<AppDbContext>();
+    builder.Services.AddKeyValuePairRepositories<AppDbContext>();
+    builder.Services.AddKomaasharuRepositories<AppDbContext>();
+    builder.Services.AddIdentityRepositories<AppDbContext>();
+    builder.Services.AddOrderingRepositories<AppDbContext>();
+    builder.Services.AddPaymentRepositories<AppDbContext>();
+    builder.Services.AddMembershipRepositories<AppDbContext>();
+
+    builder.Services.TryAddScoped<IJsonWebTokenValueProvider, JsonWebTokenValueProvider<AppSettings>>();
+
+    builder.Services.AddAutoMapper(static cfg =>
+    {
+        cfg.AddProfile<AutoMapperProfile>();
+    });
+
+    builder.Services.AddSingleton<IAdminCenterService, AdminCenterService>();
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
+
+    builder.AddRabbitMQClient(connectionName: "messaging");
 }
 
 static void Configure(WebApplication app)
@@ -154,7 +197,7 @@ static void Configure(WebApplication app)
     app.MapDefaultEndpoints();
 
     // 配置后台管理通用终结点路由
-    app.MapBMMinimalApis<BMUser, BMRole>();
+    app.MapBMMinimalApis<AppDbContext, BMUser, BMRole, BMUserRole>(ignoreInfoController: ignoreInfoController);
 
     // 配置 api/info GET 终结点路由
     app.MapGetInfo();
@@ -176,4 +219,15 @@ static void Configure(WebApplication app)
         return Results.StatusCode(statusCode);
     }).WithDescription("测试状态码响应");
 #endif
+}
+
+sealed class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
+    {
+        this.AddCoreProfile();
+        this.AddIdentityProfile();
+        this.AddBasicProfile();
+        this.AddOrderingProfile();
+    }
 }

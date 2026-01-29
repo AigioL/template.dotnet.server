@@ -1,11 +1,13 @@
 using AigioL.Common.AspNetCore.AppCenter;
 using AigioL.Common.AspNetCore.AppCenter.Basic.Models;
+using AigioL.Common.AspNetCore.AppCenter.COS;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
 using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
+using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
 using AigioLTemplate.Server.ApiService.Basic.Models;
 using AigioLTemplate.Server.ApiService.Data;
@@ -48,6 +50,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -124,6 +135,14 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    var feishuApiOptionsSection = builder.Configuration.GetSection(nameof(FeishuApiOptions));
+    builder.Services.Configure<FeishuApiOptions>(feishuApiOptionsSection);
+    builder.AddFeishuApiClient();
+
+    builder.AddRabbitMQClient(connectionName: "messaging");
+
+    builder.Services.AddHostedService<ImageHandleSubscribe.ImageHandleWorker<AppSettings>>();
 }
 
 static void Configure(WebApplication app)

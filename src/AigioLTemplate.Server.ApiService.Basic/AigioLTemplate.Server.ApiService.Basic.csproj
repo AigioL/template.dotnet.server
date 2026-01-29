@@ -33,6 +33,10 @@
 		</None>
 	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Magick.NET-Q16-AnyCPU" />
+	</ItemGroup>
+
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Basic\AigioL.Common.AspNetCore.AppCenter.Basic.projitems" Label="Shared" />
 
 </Project>

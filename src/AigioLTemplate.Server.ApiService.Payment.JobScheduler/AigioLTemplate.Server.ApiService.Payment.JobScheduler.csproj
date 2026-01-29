@@ -33,7 +33,13 @@
 		</None>
 	</ItemGroup>
 
-	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Ordering\AigioL.Common.AspNetCore.AppCenter.Ordering.projitems" Label="Shared" />
+	<ItemGroup>
+		<PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" />
+		<PackageReference Include="Essensoft.Paylink.Alipay" />
+		<PackageReference Include="Essensoft.Paylink.WeChatPay" />
+	</ItemGroup>
+
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Payment.JobScheduler\AigioL.Common.AspNetCore.AppCenter.Payment.JobScheduler.projitems" Label="Shared" />
+	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Payment.Core\AigioL.Common.AspNetCore.AppCenter.Payment.Core.projitems" Label="Shared" />
 
 </Project>

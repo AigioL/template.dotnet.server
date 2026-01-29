@@ -30,7 +30,6 @@
 		</None>
 	</ItemGroup>
 
-	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Analytics\AigioL.Common.AspNetCore.AppCenter.Analytics.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Analytics.JobScheduler\AigioL.Common.AspNetCore.AppCenter.Analytics.JobScheduler.projitems" Label="Shared" />
 
 </Project>

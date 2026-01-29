@@ -48,6 +48,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -119,10 +128,12 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加微服务仓储层服务
     builder.Services.AddAppVerCoreService<AppDbContext>();
-    //builder.Services.AddXXXRepositories<AppDbContext>();
+    builder.Services.AddAnalyticsRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    builder.AddRabbitMQClient(connectionName: "messaging");
 }
 
 static void Configure(WebApplication app)

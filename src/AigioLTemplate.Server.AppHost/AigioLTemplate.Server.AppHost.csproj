@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Sdk Name="Aspire.AppHost.Sdk" Version="9.5.0" />
+	<Sdk Name="Aspire.AppHost.Sdk" Version="$(Aspire_AppHost_Sdk_Version)" />
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
@@ -27,6 +27,10 @@
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
 		<PackageReference Include="Aspire.Hosting.Docker" />
+		<PackageReference Include="Aspire.Hosting.Kubernetes" />
+		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
+		<PackageReference Include="Aspire.Hosting.Yarp" />
+		<PackageReference Include="Aspire.Hosting.JavaScript" />
 		<PackageReference Include="CommunityToolkit.Aspire.Hosting.Meilisearch" />
 	</ItemGroup>
 

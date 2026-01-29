@@ -10,6 +10,8 @@
 	<PropertyGroup>
 		<!--👇 Win10/11 SDK 版本，值不可小于 10.0.x -->
 		<WinSDK_Version>10.0.19041.0</WinSDK_Version>
+		<!--👇 Aspire.AppHost.Sdk -->
+		<Aspire_AppHost_Sdk_Version>13.1.0</Aspire_AppHost_Sdk_Version>
 	</PropertyGroup>
 
 	<Choose>

@@ -14,6 +14,4 @@ partial class AppDbContext : IOrderingDbContext
     public DbSet<UserCouponInfo> UserCouponInfos { get; set; } = null!;
 
     public DbSet<AftersalesBill> AftersalesBills { get; set; } = null!;
-
-    public DbSet<RefundBill> RefundBills { get; set; } = null!;
 }

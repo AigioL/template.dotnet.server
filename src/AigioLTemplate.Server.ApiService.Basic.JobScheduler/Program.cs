@@ -3,8 +3,10 @@ using AigioL.Common.AspNetCore.AppCenter.Basic.Jobs;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
+using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
+using AigioL.Common.Extensions.Http.Proxy.Services.Abstractions;
 using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
 using AigioLTemplate.Server.ApiService.Basic.JobScheduler.Models;
@@ -45,6 +47,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -117,6 +128,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     // 添加微服务仓储层服务
     builder.Services.AddBasicRepositories<AppDbContext>();
     builder.Services.AddKomaasharuRepositories<AppDbContext>();
+    builder.Services.AddWebProxyRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
@@ -126,11 +138,16 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.AddFeishuApiClient();
 
     // 添加 Quartz 作业计划服务
-    builder.Services.AddQuartz(ConfigureQuartz);
+    builder.Services.AddQuartz(config =>
+    {
+        ConfigureQuartz(config, appSettings.CloseFunctions ?? []);
+    });
     builder.Services.AddQuartzServer(options =>
     {
         options.WaitForJobsToComplete = true;
     });
+
+    builder.Services.AddScoped<IWebProxyPoolService, WebProxyPoolService>();
 }
 
 static void Configure(WebApplication app)
@@ -194,25 +211,35 @@ static void Configure(WebApplication app)
 #endif
 }
 
-static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config)
+static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, string[] closeFunctions)
 {
     config.UseDefaultThreadPool(options => { options.MaxConcurrency = 10; });
 
-    config.ScheduleJob<ArticleViewIncrementStatisticJob>(trigger => trigger
-    .WithIdentity(nameof(ArticleViewIncrementStatisticJob))
-    .StartNow()
-    .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
-    .WithDescription("统计文章浏览量"));
+    if (!closeFunctions.Contains(nameof(ArticleViewIncrementStatisticJob)))
+        config.ScheduleJob<ArticleViewIncrementStatisticJob>(trigger => trigger
+        .WithIdentity(nameof(ArticleViewIncrementStatisticJob))
+        .StartNow()
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
+        .WithDescription("统计文章浏览量"));
 
-    config.ScheduleJob<AppVerRedisCacheJob>(trigger => trigger
-    .WithIdentity(nameof(AppVerRedisCacheJob))
-    .StartNow()
-    .WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever())
-    .WithDescription("更新 AppVer"));
+    if (!closeFunctions.Contains(nameof(AppVerRedisCacheJob)))
+        config.ScheduleJob<AppVerRedisCacheJob>(trigger => trigger
+        .WithIdentity(nameof(AppVerRedisCacheJob))
+        .StartNow()
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever())
+        .WithDescription("更新 AppVer"));
 
-    config.ScheduleJob<KomaasharuCacheJob>(trigger => trigger
-    .WithIdentity(nameof(KomaasharuCacheJob))
-    .StartNow()
-    .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
-    .WithDescription("每隔 1 分钟刷新一次【广告】列表的缓存"));
+    if (!closeFunctions.Contains(nameof(KomaasharuCacheJob)))
+        config.ScheduleJob<KomaasharuCacheJob>(trigger => trigger
+        .WithIdentity(nameof(KomaasharuCacheJob))
+        .StartNow()
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
+        .WithDescription("每隔 1 分钟刷新一次【广告】列表的缓存"));
+
+    if (!closeFunctions.Contains(nameof(WebProxyPoolExpirationListenerJob)))
+        config.ScheduleJob<WebProxyPoolExpirationListenerJob>(trigger => trigger
+        .WithIdentity(nameof(WebProxyPoolExpirationListenerJob))
+        .StartNow()
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
+        .WithDescription("WebProxyPool 过期代理监听原子清理和计数递减"));
 }

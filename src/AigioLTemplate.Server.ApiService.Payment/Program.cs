@@ -2,13 +2,17 @@ using AigioL.Common.AspNetCore.AppCenter;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
 using AigioL.Common.AspNetCore.AppCenter.Ordering.Models;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
+using AigioL.Common.AspNetCore.AppCenter.Payment.Workers;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
 using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
+using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
 using AigioLTemplate.Server.ApiService.Data;
 using AigioLTemplate.Server.ApiService.Payment.Models;
+using AigioLTemplate.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +52,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -119,10 +132,26 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加微服务仓储层服务
     builder.Services.AddAppVerCoreService<AppDbContext>();
-    //builder.Services.AddXXXRepositories<AppDbContext>();
+    builder.Services.AddPaymentRepositories<AppDbContext>();
+    builder.AddPaymentServices<AppSettings>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
+
+    var feishuApiOptionsSection = builder.Configuration.GetSection(nameof(FeishuApiOptions));
+    builder.Services.Configure<FeishuApiOptions>(feishuApiOptionsSection);
+    builder.AddFeishuApiClient();
+
+    builder.AddRabbitMQClient(connectionName: "messaging");
+    builder.Services.AddHostedService<MembershipOrderSubscribe.AgreementSignWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.AgreementUnSignWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.PaymentSuccessWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.PaidOrderCancelWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.PaymentRefundedWorker>();
+    builder.Services.AddHostedService<PaymentRefundSubscribe>();
+    builder.Services.AddHostedService<TransferSubscribe>();
 }
 
 static void Configure(WebApplication app)
@@ -162,7 +191,7 @@ static void Configure(WebApplication app)
     app.MapDefaultEndpoints();
 
     // 配置微服务终结点路由
-    app.MapPaymentMinimalApis();
+    app.MapPaymentMinimalApis<AppSettings>();
 
     // 配置 api/info GET 终结点路由
     app.MapGetInfo();

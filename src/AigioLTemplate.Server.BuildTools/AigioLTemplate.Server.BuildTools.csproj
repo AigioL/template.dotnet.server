@@ -13,6 +13,12 @@
 
 	<Import Project="..\..\ref\common\src\AigioL.Common.BuildTools\AigioL.Common.BuildTools.projitems" Label="Shared" />
 
+	<ItemGroup>
+		<None Include="..\..\ref\common\src\AigioL.Common.BuildTools\Commands\**\*.cs">
+			<LinkBase>Commands</LinkBase>
+		</None>
+	</ItemGroup>
+
 	<PropertyGroup>
 		<PublishAot>false</PublishAot>
 	</PropertyGroup>

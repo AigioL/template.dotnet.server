@@ -53,12 +53,16 @@
     <Project Path="ref/common/src/AigioL.Common.AspNetCore.AppCenter.Ordering.Core/AigioL.Common.AspNetCore.AppCenter.Ordering.Core.shproj" Id="be46ad26-3ee2-445a-80f2-26bc29e7b545" />
     <Project Path="ref/common/src/AigioL.Common.AspNetCore.AppCenter.Ordering.JobScheduler/AigioL.Common.AspNetCore.AppCenter.Ordering.JobScheduler.shproj" Id="cf9886f0-052e-44b5-9081-0a8ec661fe61" />
     <Project Path="ref/common/src/AigioL.Common.AspNetCore.AppCenter.Ordering/AigioL.Common.AspNetCore.AppCenter.Ordering.shproj" Id="050a2e79-a588-44b3-87b4-4c32d5af4414" />
+    <Project Path="ref/common/src/AigioL.Common.AspNetCore.AppCenter.Payment.Core/AigioL.Common.AspNetCore.AppCenter.Payment.Core.shproj" Id="1ad0f240-d2e7-443c-adb6-0d9639a1becb" />
     <Project Path="ref/common/src/AigioL.Common.AspNetCore.AppCenter.Payment.JobScheduler/AigioL.Common.AspNetCore.AppCenter.Payment.JobScheduler.shproj" Id="d51747da-fec9-4a8b-b018-5b0e2e355a94" />
     <Project Path="ref/common/src/AigioL.Common.AspNetCore.Helpers.ProgramMain/AigioL.Common.AspNetCore.Helpers.ProgramMain.shproj" Id="276306f9-8c73-4b7a-a517-e7a502cd5f2b" />
+    <Project Path="ref/common/src/AigioL.Common.Bcl.Base58Guid/AigioL.Common.Bcl.Base58Guid.shproj" Id="b360a377-0d52-447b-ad5a-5547cf6e329f" />
     <Project Path="ref/common/src/AigioL.Common.Bcl.LogInit/AigioL.Common.Bcl.LogInit.shproj" Id="78490a57-3c48-4dbb-893b-a8724b6a94a7" />
     <Project Path="ref/common/src/AigioL.Common.Bcl/AigioL.Common.Bcl.shproj" Id="86dfc3a4-0f30-40f0-af39-6e76e46d78f1" />
     <Project Path="ref/common/src/AigioL.Common.BuildTools/AigioL.Common.BuildTools.shproj" Id="9e2ef71b-0fb8-4b45-af29-0c294675a8a8" />
     <Project Path="ref/common/src/AigioL.Common.EntityFrameworkCore/AigioL.Common.EntityFrameworkCore.shproj" Id="a39bde5d-77a9-4136-a88e-0e2d2b0701d0" />
+    <Project Path="ref/common/src/AigioL.Common.Extensions.Http.Proxy/AigioL.Common.Extensions.Http.Proxy.shproj" Id="0a3c3013-54de-4413-b861-4d0faf6af587" />
+    <Project Path="ref/common/src/AigioL.Common.Extensions.Http/AigioL.Common.Extensions.Http.shproj" Id="2df64651-264a-4621-aa16-b6bac63b63db" />
     <Project Path="ref/common/src/AigioL.Common.FeishuOApi.Sdk/AigioL.Common.FeishuOApi.Sdk.shproj" Id="8b693671-817b-4e46-b1df-0f81623e3eb1" />
     <Project Path="ref/common/src/AigioL.Common.JsonWebTokens.Entities/AigioL.Common.JsonWebTokens.Entities.shproj" Id="26839620-b9b9-4fbe-b03b-a92d5a034e8e" />
     <Project Path="ref/common/src/AigioL.Common.JsonWebTokens.Models.Dtos/AigioL.Common.JsonWebTokens.Models.Dtos.shproj" Id="7ad8e0e7-211c-485b-a83f-bf5d35d67681" />

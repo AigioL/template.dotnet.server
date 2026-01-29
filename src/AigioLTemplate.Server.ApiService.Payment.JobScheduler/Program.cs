@@ -1,12 +1,16 @@
 using AigioL.Common.AspNetCore.AppCenter;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
+using AigioL.Common.AspNetCore.AppCenter.Payment.Jobs;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
 using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
+using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
 using AigioLTemplate.Server.ApiService.Payment.JobScheduler.Models;
+using AigioLTemplate.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +49,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -115,10 +128,26 @@ static void ConfigureServices(WebApplicationBuilder builder)
     }).AddRoles<Role>().AddEntityFrameworkStores<AppDbContext>();
 
     // 添加微服务仓储层服务
-    //builder.Services.AddXXXRepositories<AppDbContext>();
+    builder.Services.AddPaymentRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
+
+    var feishuApiOptionsSection = builder.Configuration.GetSection(nameof(FeishuApiOptions));
+    builder.Services.Configure<FeishuApiOptions>(feishuApiOptionsSection);
+    builder.AddFeishuApiClient();
+
+    // 添加 Quartz 作业计划服务
+    builder.Services.AddQuartz(config =>
+    {
+        ConfigureQuartz(config, appSettings.CloseFunctions ?? []);
+    });
+    builder.Services.AddQuartzServer(options =>
+    {
+        options.WaitForJobsToComplete = true;
+    });
 }
 
 static void Configure(WebApplication app)
@@ -180,4 +209,42 @@ static void Configure(WebApplication app)
         return Results.StatusCode(statusCode);
     }).WithDescription("测试状态码响应");
 #endif
+}
+
+static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, string[] closeFunctions)
+{
+    config.UseDefaultThreadPool(options => { options.MaxConcurrency = 10; });
+
+    //config.ScheduleJob<AlipayTradePayQueryJob>(trigger => trigger
+    //.WithIdentity("AlipayTradePayQueryJob")
+    //.StartNow()
+    //.WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever())
+    //.WithDescription("支付宝交易状态查询同步"));
+
+    if (!closeFunctions.Contains("RefreshWeChatAccessTokenJob"))
+        config.ScheduleJob<RefreshWeChatAccessTokenJob<AppSettings>>(trigger => trigger
+        .WithIdentity("RefreshWeChatAccessTokenJob")
+        .StartNow()
+        .WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever())
+        .WithDescription("刷新微信 AccessToken"));
+
+    if (!closeFunctions.Contains("MerchantDeductionJob"))
+        config.ScheduleJob<MerchantDeductionJob>(trigger => trigger
+        .WithIdentity(nameof(MerchantDeductionJob))
+#if DEBUG
+        .StartNow()
+#else
+        .WithCronSchedule("0 0 9,12,15,18 ? * * *")
+#endif
+        .WithDescription("商家协议扣款"));
+
+    if (!closeFunctions.Contains("MerchantDeductionAgreementUnSignJob"))
+        config.ScheduleJob<MerchantDeductionAgreementUnSignJob>(trigger => trigger
+        .WithIdentity(nameof(MerchantDeductionAgreementUnSignJob))
+#if DEBUG
+        .StartNow()
+#else
+        .WithCronSchedule("0 0 9 ? * * *")
+#endif
+        .WithDescription("扣款超时的商家扣款协议推送协议解约申请通知"));
 }

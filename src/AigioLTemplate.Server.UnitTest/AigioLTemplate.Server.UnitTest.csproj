@@ -10,6 +10,8 @@
 
 
 	<ItemGroup>
+		<PackageReference Include="NLog" />
+		<PackageReference Include="NLog.Extensions.Logging" />
 		<PackageReference Include="Aspire.Hosting.Testing" />
 		<PackageReference Include="coverlet.collector">
 			<PrivateAssets>all</PrivateAssets>

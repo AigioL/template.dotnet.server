@@ -45,6 +45,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -115,7 +124,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     }).AddRoles<Role>().AddEntityFrameworkStores<AppDbContext>();
 
     // 添加微服务仓储层服务
-    //builder.Services.AddXXXRepositories<AppDbContext>();
+    builder.Services.AddAnalyticsRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
@@ -125,10 +134,9 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.AddFeishuApiClient();
 
     // 添加 Quartz 作业计划服务
-    List<string> closeFunctions = new();
     builder.Services.AddQuartz(config =>
     {
-        ConfigureQuartz(config, closeFunctions);
+        ConfigureQuartz(config, appSettings.CloseFunctions ?? []);
     });
     builder.Services.AddQuartzServer(options =>
     {
@@ -197,35 +205,29 @@ static void Configure(WebApplication app)
 #endif
 }
 
-static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, List<string> closeFunctions)
+static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, string[] closeFunctions)
 {
     config.UseDefaultThreadPool(options => { options.MaxConcurrency = 10; });
 
     if (!closeFunctions.Contains(nameof(ActiveUserInsertJob)))
-    {
         config.ScheduleJob<ActiveUserInsertJob>(trigger => trigger
         .WithIdentity(nameof(ActiveUserInsertJob))
         .StartNow()
         .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
         .WithDescription("每分钟批量插入活跃用户 减轻数据库写入压力"));
-    }
 
     if (!closeFunctions.Contains(nameof(DailyStatisticsJob)))
-    {
         config.ScheduleJob<DailyStatisticsJob>(trigger => trigger
         .WithIdentity(nameof(DailyStatisticsJob))
         .StartAt(DateTime.Now.Hour < 6 ? DateTime.Today.AddHours(6) : DateTime.Today.AddDays(1).AddHours(6))
         .WithSimpleSchedule(x => x.WithIntervalInHours(24).RepeatForever())
         .WithDescription("每日数据汇总"));
-    }
 
     if (!closeFunctions.Contains(nameof(AppCenterLogJob)))
-    {
         config.ScheduleJob<AppCenterLogJob>(trigger => trigger
         .WithIdentity(nameof(AppCenterLogJob))
         .StartAt(DateTime.Now.Hour < 6 ? DateTime.Today.AddHours(6) : DateTime.Today.AddDays(1).AddHours(6))
         //.StartNow()
         .WithSimpleSchedule(x => x.WithIntervalInHours(24).RepeatForever())
         .WithDescription("AppCenter 数据汇总"));
-    }
 }

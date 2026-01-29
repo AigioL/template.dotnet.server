@@ -1,4 +1,5 @@
 using AigioL.Common.AspNetCore.AppCenter.Data.Abstractions;
+using AigioL.Common.AspNetCore.AppCenter.Entities.Net;
 using Microsoft.EntityFrameworkCore;
 using KeyValuePair = global::AigioL.Common.AspNetCore.AppCenter.Entities.KeyValuePair;
 
@@ -8,4 +9,6 @@ namespace AigioLTemplate.Server.ApiService.Data;
 partial class AppDbContext : IKeyValuePairsDbContext
 {
     public DbSet<KeyValuePair> KeyValuePairs { get; set; } = null!;
+
+    public DbSet<WebProxyEntity> WebProxys { get; set; } = null!;
 }

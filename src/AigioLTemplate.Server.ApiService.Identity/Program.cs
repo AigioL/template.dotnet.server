@@ -9,7 +9,9 @@ using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
 using AigioLTemplate.Server.ApiService.Data;
 using AigioLTemplate.Server.ApiService.Identity.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -47,6 +49,15 @@ static void ConfigureServices(WebApplicationBuilder builder)
     {
         // https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/openapi/customize-openapi#use-document-transformers
         options.AddMSBearerSecuritySchemeTransformer();
+        options.AddDocumentTransformer((document, context, cancellationToken) =>
+        {
+            document.Info = new()
+            {
+                Title = ProgramHelper.ProjectIdLower,
+                Version = $"v{ProgramHelper.Version}",
+            };
+            return Task.CompletedTask;
+        });
     });
     builder.Services.AddValidation();
 
@@ -87,6 +98,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
     })
     .ConfigureExternalLoginChannels(builder.Configuration); // 配置第三方外部平台登录渠道
 
+    authenticationBuilder.AddIdentityCookies(o => { });
+
     // 添加 Redis 分布式缓存服务
     builder.AddRedisDistributedCacheV2(connectionName: "cache");
 
@@ -126,6 +139,18 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加短信发送提供程序
     builder.Services.AddSmsSenderProvider(appSettings);
+
+    builder.Services.AddAutoMapper(static cfg =>
+    {
+        cfg.AddProfile<AutoMapperProfile>();
+    });
+
+    builder.Services.AddSession(options =>
+    {
+        options.IdleTimeout = TimeSpan.FromMinutes(21);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    });
 }
 
 static void Configure(WebApplication app)
@@ -138,6 +163,8 @@ static void Configure(WebApplication app)
     app.UseCors(appSettings);
 
     app.UseRequestLocalization();
+
+    app.UseSession();
 
     // Configure the HTTP request pipeline.
     app.UseApiRspExceptionHandler(handlerException: ErrorController.IdentityUIViewExceptionHandler);
@@ -156,11 +183,6 @@ static void Configure(WebApplication app)
         app.UseWelcomePage("/");
     }
 
-    app.Use(async (HttpContext ctx, RequestDelegate next) =>
-    {
-        await next(ctx);
-    });
-
     // 鉴权，检测有没有登录，登录的是谁，赋值给 User
     app.UseAuthentication();
 
@@ -168,11 +190,6 @@ static void Configure(WebApplication app)
     app.UseAuthorization();
 
     app.MapDefaultEndpoints();
-
-    app.Use(async (HttpContext ctx, RequestDelegate next) =>
-    {
-        await next(ctx);
-    });
 
     // 添加 SecurityKey 模式的中间件
     app.UseSecurityKey();
@@ -200,4 +217,12 @@ static void Configure(WebApplication app)
         return Results.StatusCode(statusCode);
     }).WithDescription("测试状态码响应");
 #endif
+}
+
+sealed class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
+    {
+        this.AddIdentityProfile();
+    }
 }

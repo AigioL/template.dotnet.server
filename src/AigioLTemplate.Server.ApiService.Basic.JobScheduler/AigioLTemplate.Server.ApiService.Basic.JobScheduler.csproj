@@ -33,7 +33,6 @@
 		</None>
 	</ItemGroup>
 
-	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Basic\AigioL.Common.AspNetCore.AppCenter.Basic.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Basic.JobScheduler\AigioL.Common.AspNetCore.AppCenter.Basic.JobScheduler.projitems" Label="Shared" />
 
 </Project>

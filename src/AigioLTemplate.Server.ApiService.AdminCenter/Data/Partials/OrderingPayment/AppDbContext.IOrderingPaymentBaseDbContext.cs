@@ -12,4 +12,6 @@ partial class AppDbContext : IOrderingPaymentBaseDbContext
     public DbSet<OrderPaymentComposition> OrderPaymentCompositions { get; set; } = null!;
 
     public DbSet<TransferOrder> TransferOrders { get; set; } = null!;
+
+    public DbSet<RefundBill> RefundBills { get; set; } = null!;
 }
