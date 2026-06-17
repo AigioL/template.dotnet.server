@@ -48,32 +48,17 @@
 			</ItemGroup>
 		</When>
 	</Choose>
-	
-	<Import Condition="Exists('$(MSBuildThisFileDirectory)\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props')" Project="$(MSBuildThisFileDirectory)\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props" />
-	<Import Condition="!Exists('$(MSBuildThisFileDirectory)\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props') AND Exists('$(MSBuildThisFileDirectory)\GenerateAssemblyXYZAttribute.props')" Project="$(MSBuildThisFileDirectory)\GenerateAssemblyXYZAttribute.props" />
 
-	<Choose>
-		<When Condition="Exists('$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.cs')">
-			<ItemGroup>
-				<Compile Include="$(MSBuildThisFileDirectory)..\ref\serversdk\src\AssemblyInfo.Attribute.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\ref\serversdk\src\AssemblyInfo.Attribute.NeutralResourcesLanguage.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<Compile Include="$(MSBuildThisFileDirectory)\AssemblyInfo.Attribute.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)\AssemblyInfo.Attribute.NeutralResourcesLanguage.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
+	<Import Project="$(MSBuildThisFileDirectory)..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props" />
+
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)..\ref\serversdk\src\AssemblyInfo.Attribute.cs">
+			<LinkBase>Properties</LinkBase>
+		</Compile>
+		<Compile Include="$(MSBuildThisFileDirectory)..\ref\serversdk\src\AssemblyInfo.Attribute.NeutralResourcesLanguage.cs">
+			<LinkBase>Properties</LinkBase>
+		</Compile>
+	</ItemGroup>
 
 	<Import Condition="$(MSBuildProjectName.Contains('JobScheduler'))" Project="..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Core.JobScheduler\AigioL.Common.AspNetCore.AppCenter.Core.JobScheduler.projitems" Label="Shared" />
 

@@ -674,3 +674,7 @@ target
 # Meilisearch data directory
 /res/meilisearch
 /res/meilisearch/data
+
+# RabbitMQ data directory
+/res/rabbitmq
+/res/rabbitmq/data

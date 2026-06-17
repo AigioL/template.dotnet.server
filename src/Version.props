@@ -3,15 +3,15 @@
 	<!-- 👇 当前项目的版本号配置 -->
 	<PropertyGroup>
 		<!--(yyyy-2024||A).B.(yyyy-2024)MMdd.1hhC-->
-		<Version>1.0.11209.11957</Version>
+		<Version>1.0.20617.11000</Version>
 	</PropertyGroup>
 
 	<!-- 👇 当前项目依赖的版本号配置 -->
 	<PropertyGroup>
 		<!--👇 Win10/11 SDK 版本，值不可小于 10.0.x -->
 		<WinSDK_Version>10.0.19041.0</WinSDK_Version>
-		<!--👇 Aspire.AppHost.Sdk -->
-		<Aspire_AppHost_Sdk_Version>13.1.0</Aspire_AppHost_Sdk_Version>
+		<!--👇 Aspire.AppHost.Sdk https://www.nuget.org/packages/Aspire.AppHost.Sdk#versions-body-tab -->
+		<Aspire_AppHost_Sdk_Version>13.4.4</Aspire_AppHost_Sdk_Version>
 	</PropertyGroup>
 
 	<Choose>
@@ -24,6 +24,7 @@
 			<PropertyGroup>
 				<!--👇 首选 .NET 版本号 -->
 				<DotNet_Version>10.0</DotNet_Version>
+				<!--<DotNet_Version>11.0</DotNet_Version>-->
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>

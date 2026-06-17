@@ -4,6 +4,7 @@
     <File Path=".gitignore" />
     <File Path="README.md" />
     <File Path="ref/common/src/Directory.Packages.props" />
+    <File Path="src/.editorconfig" />
     <File Path="src/ApiService.Docker.props" />
     <File Path="src/ApiService.props" />
     <File Path="src/Directory.Build.props" />
@@ -17,16 +18,7 @@
     <File Path=".github/ISSUE_TEMPLATE/question.en.md" />
     <File Path=".github/ISSUE_TEMPLATE/question.md" />
   </Folder>
-  <Folder Name="/2.Document/">
-    <File Path="doc/Code-Style.md" />
-    <File Path="doc/Compression-And-Packaging.md" />
-    <File Path="doc/Copywriting-Guide.md" />
-    <File Path="doc/CSharp.md" />
-    <File Path="doc/Entity-Framework-Core.md" />
-    <File Path="doc/Git-Commit-Message-Standard.md" />
-    <File Path="doc/Redis.md" />
-    <File Path="doc/Serializable-And-Deserialize.md" />
-  </Folder>
+  <Folder Name="/2.Document/" />
   <Folder Name="/2.Libraries/">
     <Project Path="src/AigioLTemplate.Server.Core/AigioLTemplate.Server.Core.csproj" />
   </Folder>
@@ -80,6 +72,9 @@
     <Project Path="ref/common/src/AigioL.Common.System.Security.Cryptography.Aes/AigioL.Common.System.Security.Cryptography.Aes.shproj" Id="bafc6195-e7f9-4e81-b1ec-0d1de60d5fdc" />
     <Project Path="ref/common/src/AigioL.Common.System.Security.Cryptography.HashAlgorithms/AigioL.Common.System.Security.Cryptography.HashAlgorithms.shproj" Id="49917bf7-8b4f-4bbb-a3f4-df5715759605" />
     <Project Path="ref/common/src/AigioL.Common.System.Security.Cryptography.RSA/AigioL.Common.System.Security.Cryptography.RSA.shproj" Id="dc3e79b1-9785-421d-b9aa-62d2f77f124d" />
+  </Folder>
+  <Folder Name="/2.Libraries/1.Reference/ServerSdk/">
+    <Project Path="ref/serversdk/src/AigioLTemplate.ServerSdk.Constants/AigioLTemplate.ServerSdk.Constants.shproj" Id="299be390-2d59-4d90-b3e9-857cf734fc9b" />
   </Folder>
   <Folder Name="/3.EntryPoint/">
     <Project Path="src/AigioLTemplate.Server.AppHost/AigioLTemplate.Server.AppHost.csproj" />

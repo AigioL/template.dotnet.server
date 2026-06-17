@@ -4,7 +4,7 @@ namespace AigioL.Common.BuildTools.Commands;
 partial interface IServerPublishCommand
 {
     private const string DefaultPushName = "AigioLTemplate.Server";
-    private const string DefaultPushDomain = "docker.mossimo.net:10001";
+    private const string DefaultPushDomain = "docker.aigiol.github.io:10001";
     private static readonly string[] IgnoreProjects =
     [
         "AigioLTemplate.Server.ApiService.Cluster",
