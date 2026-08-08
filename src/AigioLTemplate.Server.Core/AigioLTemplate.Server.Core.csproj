@@ -5,6 +5,7 @@
 		<RootNamespace>AigioLTemplate.Server</RootNamespace>
 		<IsAspireSharedProject>true</IsAspireSharedProject>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>AigioLTemplate</RootNamespace>
 	</PropertyGroup>
 
 	<Choose>
@@ -90,60 +91,44 @@
 	<Import Project="..\..\ref\common\src\AigioL.Common.System.Security.Cryptography.HashAlgorithms\AigioL.Common.System.Security.Cryptography.HashAlgorithms.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.System.Security.Cryptography.RSA\AigioL.Common.System.Security.Cryptography.RSA.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AdminCenter.Entities\AigioL.Common.AspNetCore.AdminCenter.Entities.projitems" Label="Shared" />
-	<Import Project="..\..\ref\common\src\AigioL.Common.Extensions.Http.Proxy\AigioL.Common.Extensions.Http.Proxy.projitems" Label="Shared" />
+	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.PartnerCenter.Entities\AigioL.Common.AspNetCore.PartnerCenter.Entities.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.Extensions.Http\AigioL.Common.Extensions.Http.projitems" Label="Shared" />
+	<Import Project="..\..\ref\common\src\AigioL.Common.Extensions.Http.Proxy\AigioL.Common.Extensions.Http.Proxy.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.Bcl.Base58Guid\AigioL.Common.Bcl.Base58Guid.projitems" Label="Shared" />
 
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Core\AigioL.Common.AspNetCore.AppCenter.Core.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Core.ClientSide\AigioL.Common.AspNetCore.AppCenter.Core.ClientSide.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Basic.Core\AigioL.Common.AspNetCore.AppCenter.Basic.Core.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Analytics.Core\AigioL.Common.AspNetCore.AppCenter.Analytics.Core.projitems" Label="Shared" />
+	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Analytics.Core.ClientSide\AigioL.Common.AspNetCore.AppCenter.Analytics.Core.ClientSide.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Ordering.Core\AigioL.Common.AspNetCore.AppCenter.Ordering.Core.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Identity.Core\AigioL.Common.AspNetCore.AppCenter.Identity.Core.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Identity.Core.ClientSide\AigioL.Common.AspNetCore.AppCenter.Identity.Core.ClientSide.projitems" Label="Shared" />
+	<Import Project="..\..\ref\common\src\AigioL.Common.AspNetCore.AdminCenter.PartnerCenter.Core\AigioL.Common.AspNetCore.AdminCenter.PartnerCenter.Core.projitems" Label="Shared" />
 
+	<Import Project="..\..\ref\common\src\AigioL.Common.Storage.Services\AigioL.Common.Storage.Services.projitems" Label="Shared" />
+	<Import Project="..\..\ref\common\src\AigioL.Common.Storage.Models\AigioL.Common.Storage.Models.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.SmsSender.Services\AigioL.Common.SmsSender.Services.projitems" Label="Shared" />
 	<Import Project="..\..\ref\common\src\AigioL.Common.SmsSender.Models\AigioL.Common.SmsSender.Models.projitems" Label="Shared" />
 
-	<Import Condition="Exists('$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\AigioLTemplate.Server.ServerSdk.Constants\AigioLTemplate.Server.ServerSdk.Constants.projitems')" Project="$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\AigioLTemplate.Server.ServerSdk.Constants\AigioLTemplate.Server.ServerSdk.Constants.projitems" Label="Shared" />
+	<Import Project="$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\AigioLTemplate.ServerSdk.Constants\AigioLTemplate.ServerSdk.Constants.projitems" Label="Shared" />
 
-	<Import Condition="Exists('$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props')" Project="$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props" />
-	<Import Condition="!Exists('$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props') AND Exists('$(MSBuildProjectDirectory)\..\GenerateAssemblyXYZAttribute.props')" Project="$(MSBuildProjectDirectory)\..\GenerateAssemblyXYZAttribute.props" />
+	<Import Project="$(MSBuildProjectDirectory)\..\..\ref\serversdk\src\GenerateAssemblyXYZAttribute.props" />
 
-	<Choose>
-		<When Condition="Exists('$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.cs')">
-			<ItemGroup>
-				<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.Attribute.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.GetSupportedCultures.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.Attribute.NeutralResourcesLanguage.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<Compile Include="$(MSBuildThisFileDirectory)..\AssemblyInfo.Attribute.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\AssemblyInfo.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\AssemblyInfo.GetSupportedCultures.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-				<Compile Include="$(MSBuildThisFileDirectory)..\AssemblyInfo.Attribute.NeutralResourcesLanguage.cs">
-					<LinkBase>Properties</LinkBase>
-				</Compile>
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
+	<ItemGroup>
+		<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.Attribute.cs">
+			<LinkBase>Properties</LinkBase>
+		</Compile>
+		<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.cs">
+			<LinkBase>Properties</LinkBase>
+		</Compile>
+		<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.GetSupportedCultures.cs">
+			<LinkBase>Properties</LinkBase>
+		</Compile>
+		<Compile Include="$(MSBuildThisFileDirectory)..\..\ref\serversdk\src\AssemblyInfo.Attribute.NeutralResourcesLanguage.cs">
+			<LinkBase>Properties</LinkBase>
+		</Compile>
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\ref\common\src\AigioL.Common.AspNetCore.AppCenter.Core.Resources\AigioL.Common.AspNetCore.AppCenter.Core.Resources.csproj" />
@@ -154,7 +139,6 @@
 	<ItemGroup>
 		<Folder Include="Data\Abstractions\" />
 		<Folder Include="Entities\" />
-		<Folder Include="Models\" />
 		<Folder Include="Repositories\Abstractions\" />
 	</ItemGroup>
 

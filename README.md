@@ -3,12 +3,12 @@
 
 | Type                         | Development                                                                                    | Production                                                                             |
 | ---------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Dashboard                    | [aigioltemplate-d.aigiol.github.io](https://aigioltemplate-d.aigiol.github.io)                                           | [aigioltemplate-d.aigiol.github.io](https://aigioltemplate-d.aigiol.github.io)                                           |
-| Web Frontend(Admin Center)   | [aigioltemplate-admin.aigiol.github.io](https://aigioltemplate-admin.aigiol.github.io)                                   | [aigioltemplate-admin.aigiol.github.io](https://aigioltemplate-admin.aigiol.github.io)                                   |
-| Web Api(Admin Center)        | [aigioltemplate-admin-api.speedtest.aigiol.github.io](https://aigioltemplate-admin-api.speedtest.aigiol.github.io)       | [aigioltemplate-admin-api.speedtest.aigiol.github.io](https://aigioltemplate-admin-api.speedtest.aigiol.github.io)       |
-| Web Api(Microservices)       | [aigioltemplate-api.speedtest.aigiol.github.io](https://aigioltemplate-api.speedtest.aigiol.github.io)                   | [aigioltemplate-api.speedtest.aigiol.github.io](https://aigioltemplate-api.speedtest.aigiol.github.io)                   |
-| CDN                          | [aigioltemplate.speedtest.aigiol.github.io](https://aigioltemplate.speedtest.aigiol.github.io)                           | [aigioltemplate.speedtest.aigiol.github.io](https://aigioltemplate.speedtest.aigiol.github.io)                           |
-| Official Website             | [aigioltemplate.aigiol.github.io:29005](https://aigioltemplate.aigiol.github.io:29005)                               | [aigioltemplate.aigiol.github.io](https://aigioltemplate.aigiol.github.io)                                               |
+| 仪表盘                        | 待定                                                                                            | 待定                                                                                   |
+| 管理后台-Web前端               | 待定                                                                                            | 待定                                                                                   |
+| 管理后台-WebApi               | 待定                                                                                            | 待定                                                                                   |
+| 微服务-WebApi                 | 待定                                                                                            | 待定                                                                                   |
+| CDN                          | 待定                                                                                            | 待定                                                                                   |
+| 产品官网                       | 待定                                                                                            | 待定                                                                                   |
 
 ![eShop Reference Application architecture diagram](res/eshop_architecture.png)
 

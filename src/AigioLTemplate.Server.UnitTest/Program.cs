@@ -1,4 +1,6 @@
-namespace AigioLTemplate.Server.UnitTest;
+using System.Text;
+
+namespace AigioLTemplate.UnitTest;
 
 sealed class Program
 {
@@ -9,6 +11,8 @@ sealed class Program
     /// <returns></returns>
     internal int Main(string[] args)
     {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
         LogInit.InitLog("AigioLTemplate.Server.UnitTest");
 
         return 0;

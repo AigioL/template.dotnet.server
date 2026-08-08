@@ -1,8 +1,9 @@
 using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
+using AigioLTemplate.Models;
 
-namespace AigioLTemplate.Server.Services;
+namespace AigioLTemplate.Services;
 
 public sealed partial class OrderBusinessTypeService : IOrderBusinessTypeService
 {
-    public int Membership => 1;
+    public int Membership => (int)OrderBusinessType.Membership;
 }

@@ -1,3 +1,6 @@
+using System.Text;
+
+#pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
 namespace System.IO;
 
 static partial class IOPath
@@ -41,13 +44,19 @@ file static class _c914ceb2
 {
     internal static string GetAppDataDirectory()
     {
-        var value = Path.GetDirectoryName(Environment.ProcessPath!)!;
-        return Path.Combine(value, "AppData");
+        var processPath = Environment.ProcessPath;
+        ArgumentNullException.ThrowIfNull(processPath);
+        var processDirPath = Path.GetDirectoryName(processPath);
+        ArgumentNullException.ThrowIfNull(processDirPath);
+        return Path.Combine(processDirPath, "AppData");
     }
 
     internal static string GetCacheDirectory()
     {
-        var value = Path.GetDirectoryName(Environment.ProcessPath!)!;
-        return Path.Combine(value, "Cache");
+        var processPath = Environment.ProcessPath;
+        ArgumentNullException.ThrowIfNull(processPath);
+        var processDirPath = Path.GetDirectoryName(processPath);
+        ArgumentNullException.ThrowIfNull(processDirPath);
+        return Path.Combine(processDirPath, "Cache");
     }
 }

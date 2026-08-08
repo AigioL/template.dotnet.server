@@ -1,8 +1,7 @@
-using AigioLTemplate.Server.UnitTest.Abstractions;
 using System.Buffers;
 using System.Text;
 
-namespace AigioLTemplate.Server.UnitTest;
+namespace AigioLTemplate.UnitTest;
 
 public sealed class DockerfileTest : BaseUnitTest
 {
@@ -56,6 +55,8 @@ public sealed class DockerfileTest : BaseUnitTest
             var dockerfile_content = GetDockerfile(it, publishArgs.ToString());
             File.WriteAllText(dockerfilePath, dockerfile_content);
         }
+
+        Console.WriteLine($"🆗-OK，len: {projects.Length}");
     }
 
     static string GetDockerfile(ServerPublishProject m, string? publishArgs)
@@ -149,6 +150,8 @@ RUN rm -rf /app/publish/*.pdb
 
 # 此阶段在生产中使用，或在常规模式下从 VS 运行时使用(在不使用调试配置时为默认值)
 FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/aspnet:10.0.0} AS final
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
 EXPOSE 8080
 COPY --from=publish /app/publish .

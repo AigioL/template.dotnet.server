@@ -1,7 +1,6 @@
-using AigioLTemplate.Server.UnitTest.Abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace AigioLTemplate.Server.UnitTest;
+namespace AigioLTemplate.UnitTest;
 
 public sealed class AspireTest : BaseUnitTest
 {
