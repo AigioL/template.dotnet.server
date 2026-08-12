@@ -6,6 +6,7 @@
 		<IsAspireSharedProject>true</IsAspireSharedProject>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RootNamespace>AigioLTemplate</RootNamespace>
+		<DefineConstants>$(DefineConstants);USE_NUM_UID</DefineConstants>
 	</PropertyGroup>
 
 	<Choose>

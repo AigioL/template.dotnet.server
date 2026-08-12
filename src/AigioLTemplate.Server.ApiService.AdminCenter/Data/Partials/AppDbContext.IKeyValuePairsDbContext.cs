@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using KeyValuePair = global::AigioL.Common.AspNetCore.AppCenter.Entities.KeyValuePair;
 
 #pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
-namespace AigioLTemplate.Server.ApiService.Data;
+namespace AigioLTemplate.ApiService.Data;
 
 partial class AppDbContext : IKeyValuePairsDbContext
 {

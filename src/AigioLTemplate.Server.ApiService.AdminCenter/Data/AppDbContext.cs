@@ -14,7 +14,7 @@ using AigioL.Common.AspNetCore.AdminCenter.Data.Abstractions;
 #endif
 
 #pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
-namespace AigioLTemplate.Server.ApiService.Data;
+namespace AigioLTemplate.ApiService.Data;
 
 public sealed partial class AppDbContext
 {

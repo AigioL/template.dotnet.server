@@ -92,7 +92,9 @@
     <Project Path="src/AigioLTemplate.Server.AppHost/AigioLTemplate.Server.AppHost.csproj" />
   </Folder>
   <Folder Name="/3.EntryPoint/1.Microservices/" />
-  <Folder Name="/3.EntryPoint/1.Microservices/OpenApi/" />
+  <Folder Name="/3.EntryPoint/1.Microservices/OpenApi/">
+    <Project Path="src/AigioLTemplate.Server.ApiService.OpenApi/AigioLTemplate.Server.ApiService.OpenApi.csproj" />
+  </Folder>
   <Folder Name="/3.EntryPoint/1.Microservices/业务/" />
   <Folder Name="/3.EntryPoint/1.Microservices/基础/">
     <Project Path="src/AigioLTemplate.Server.ApiService.Analytics.JobScheduler/AigioLTemplate.Server.ApiService.Analytics.JobScheduler.csproj" />
@@ -107,6 +109,7 @@
   </Folder>
   <Folder Name="/3.EntryPoint/1.Microservices/管理后台/">
     <Project Path="src/AigioLTemplate.Server.ApiService.AdminCenter/AigioLTemplate.Server.ApiService.AdminCenter.csproj" />
+    <Project Path="src/AigioLTemplate.Server.ApiService.PartnerCenter/AigioLTemplate.Server.ApiService.PartnerCenter.csproj" />
   </Folder>
   <Folder Name="/4.Tools/">
     <Project Path="src/AigioLTemplate.Server.BuildTools/AigioLTemplate.Server.BuildTools.csproj" Id="cbe54b67-1743-40c1-aaeb-1d93c3bb9c0c" />

@@ -1,9 +1,9 @@
 using AigioL.Common.AspNetCore.AdminCenter.Constants;
 using AigioL.Common.AspNetCore.AdminCenter.Entities;
 using AigioL.Common.AspNetCore.AdminCenter.Services.Abstractions;
-using AigioLTemplate.Server.ApiService.AdminCenter.Models;
+using AigioLTemplate.ApiService.AdminCenter.Models;
 
-namespace AigioLTemplate.Server.ApiService.AdminCenter.Services;
+namespace AigioLTemplate.ApiService.AdminCenter.Services;
 
 sealed class AdminCenterService : IAdminCenterService
 {

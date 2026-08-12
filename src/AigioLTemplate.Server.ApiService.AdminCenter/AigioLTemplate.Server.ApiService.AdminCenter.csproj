@@ -7,6 +7,7 @@
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-bm</DockerfileTag>
 		<DefineConstants>$(DefineConstants);PROJ_DBCONTEXT_BM</DefineConstants>
+		<RootNamespace>AigioLTemplate.ApiService</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

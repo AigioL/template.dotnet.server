@@ -4,7 +4,7 @@ using AigioL.Common.AspNetCore.AppCenter.Analytics.Entities.AnalysisLogs.Summari
 using Microsoft.EntityFrameworkCore;
 
 #pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
-namespace AigioLTemplate.Server.ApiService.Data;
+namespace AigioLTemplate.ApiService.Data;
 
 partial class AppDbContext : IAnalysisLogSummariesDbContext
 {

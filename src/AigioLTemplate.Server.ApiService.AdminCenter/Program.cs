@@ -9,13 +9,13 @@ using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
 using AigioL.Common.JsonWebTokens.Services;
 using AigioL.Common.JsonWebTokens.Services.Abstractions;
-using AigioLTemplate.Server.ApiService.AdminCenter.Models;
-using AigioLTemplate.Server.ApiService.AdminCenter.Services;
-using AigioLTemplate.Server.ApiService.Data;
-using AigioLTemplate.Server.Services;
+using AigioLTemplate.ApiService.AdminCenter.Models;
+using AigioLTemplate.ApiService.AdminCenter.Services;
+using AigioLTemplate.ApiService.Data;
+using AigioLTemplate.ApiService.Models;
+using AigioLTemplate.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -48,6 +48,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.ConfigureHttpJsonOptions(options =>
     {
         options.SerializerOptions.TypeInfoResolverChain.Insert(0, BMMinimalApisJsonSerializerContext.Default);
+        options.SerializerOptions.TypeInfoResolverChain.Insert(1, BMBusinessMinimalApisJsonSerializerContext.Default);
     });
 
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -139,7 +140,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     }).AddRoles<BMRole>().AddEntityFrameworkStores<AppDbContext>();
 
     // 添加管理后台仓储层服务
-    builder.Services.AddACRepositories<AppDbContext, BMUser, BMRole, BMUserRole>();
+    builder.Services.AddAdminCenterRepositories<AppDbContext, BMUser, BMRole, BMUserRole>();
     builder.Services.AddAnalyticsRepositories<AppDbContext>();
     builder.Services.AddBasicRepositories<AppDbContext>();
     builder.Services.AddKeyValuePairRepositories<AppDbContext>();

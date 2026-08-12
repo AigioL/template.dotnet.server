@@ -1,0 +1,11 @@
+@AigioLTemplate.Server.ApiService.OpenApi_HostAddress = http://localhost:5171
+
+GET {{AigioLTemplate.Server.ApiService.OpenApi_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{AigioLTemplate.Server.ApiService.OpenApi_HostAddress}}/todos/1
+Accept: application/json
+
+###

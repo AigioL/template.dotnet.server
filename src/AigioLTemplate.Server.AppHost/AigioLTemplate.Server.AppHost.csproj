@@ -15,8 +15,10 @@
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Basic.JobScheduler\AigioLTemplate.Server.ApiService.Basic.JobScheduler.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Basic\AigioLTemplate.Server.ApiService.Basic.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Identity\AigioLTemplate.Server.ApiService.Identity.csproj" />
+		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.OpenApi\AigioLTemplate.Server.ApiService.OpenApi.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Ordering.JobScheduler\AigioLTemplate.Server.ApiService.Ordering.JobScheduler.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Ordering\AigioLTemplate.Server.ApiService.Ordering.csproj" />
+		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.PartnerCenter\AigioLTemplate.Server.ApiService.PartnerCenter.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Payment.JobScheduler\AigioLTemplate.Server.ApiService.Payment.JobScheduler.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.Payment\AigioLTemplate.Server.ApiService.Payment.csproj" />
 		<ProjectReference Include="..\AigioLTemplate.Server.ApiService.AdminCenter\AigioLTemplate.Server.ApiService.AdminCenter.csproj" />

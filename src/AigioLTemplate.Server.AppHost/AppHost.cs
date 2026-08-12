@@ -113,4 +113,20 @@ var api_job_pa5 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_P
 
 #endregion
 
+builder.AddProject<Projects.AigioLTemplate_Server_ApiService_PartnerCenter>("aigioltemplate-server-apiservice-partnercenter");
+
+#endregion
+
+#region 业务 API 服务
+
+#endregion
+
+builder.AddProject<Projects.AigioLTemplate_Server_ApiService_OpenApi>("aigioltemplate-server-apiservice-openapi");
+
+#endregion
+
+#region 业务 API 服务
+
+#endregion
+
 builder.Build().Run();

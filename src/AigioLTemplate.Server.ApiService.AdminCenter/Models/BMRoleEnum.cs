@@ -1,4 +1,4 @@
-namespace AigioLTemplate.Server.ApiService.AdminCenter.Models;
+namespace AigioLTemplate.ApiService.AdminCenter.Models;
 
 /// <summary>
 /// 角色固定值枚举
