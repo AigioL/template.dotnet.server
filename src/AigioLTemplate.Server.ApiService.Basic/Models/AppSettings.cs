@@ -1,7 +1,7 @@
 using AigioL.Common.AspNetCore.AppCenter.Basic.Models.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Models;
 
-namespace AigioLTemplate.Server.ApiService.Basic.Models;
+namespace AigioLTemplate.ApiService.Basic.Models;
 
 public sealed partial class AppSettings : MSAppSettings, IAppSettings
 {

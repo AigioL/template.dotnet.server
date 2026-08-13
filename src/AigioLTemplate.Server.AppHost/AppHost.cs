@@ -45,87 +45,81 @@ else
 
 #endregion
 
+#region 消息队列
+
+var rabbitmq = await AddRabbitMQ(builder, "messaging");
+
+#endregion
+
 #region 基础 API 服务
 
 var api_bm = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_AdminCenter>("aigioltemplate-api-bm")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
+    .WithPostgresDatabase(db_aigioltemplate)
+    .WithReferenceAndWaitFor(rabbitmq)
+    .WithHttpHealthCheck("/health");
+
+var api_pc = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_PartnerCenter>("aigioltemplate-api-pc")
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_ms_ba3 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Basic>("aigioltemplate-api-ms-ba3")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_job_ba3 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Basic_JobScheduler>("aigioltemplate-api-job-ba3")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_ms_an7 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Analytics>("aigioltemplate-api-ms-an7")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_job_an7 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Analytics_JobScheduler>("aigioltemplate-api-job-an7")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_ms_id6 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Identity>("aigioltemplate-api-ms-id6")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_ms_or6 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Ordering>("aigioltemplate-api-ms-or6")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
+    .WithReferenceAndWaitFor(rabbitmq)
     .WithHttpHealthCheck("/health");
 
 var api_job_or6 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Ordering_JobScheduler>("aigioltemplate-api-job-or6")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
     .WithHttpHealthCheck("/health");
 
 var api_ms_pa5 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Payment>("aigioltemplate-api-ms-pa5")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
+    .WithReferenceAndWaitFor(rabbitmq)
     .WithHttpHealthCheck("/health");
 
 var api_job_pa5 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_Payment_JobScheduler>("aigioltemplate-api-job-pa5")
-    .WithReference(cache)
-    .WaitFor(cache)
+    .WithReferenceAndWaitFor(cache)
     .WithPostgresDatabase(db_aigioltemplate)
+    .WithReferenceAndWaitFor(rabbitmq)
     .WithHttpHealthCheck("/health");
 
 #endregion
 
 #region 业务 API 服务
 
-#endregion
-
-builder.AddProject<Projects.AigioLTemplate_Server_ApiService_PartnerCenter>("aigioltemplate-server-apiservice-partnercenter");
-
-#endregion
-
-#region 业务 API 服务
-
-#endregion
-
-builder.AddProject<Projects.AigioLTemplate_Server_ApiService_OpenApi>("aigioltemplate-server-apiservice-openapi");
-
-#endregion
-
-#region 业务 API 服务
+var api_ms_oa6 = builder.AddProject<Projects.AigioLTemplate_Server_ApiService_OpenApi>("aigioltemplate-api-ms-oa6")
+    .WithReferenceAndWaitFor(cache)
+    .WithPostgresDatabase(db_aigioltemplate)
+    .WithHttpHealthCheck("/health");
 
 #endregion
 

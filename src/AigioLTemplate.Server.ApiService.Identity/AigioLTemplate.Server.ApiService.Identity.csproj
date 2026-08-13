@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-ms-id6</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Identity</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -12,7 +12,6 @@ using AigioL.Common.JsonWebTokens.Services.Abstractions;
 using AigioLTemplate.ApiService.AdminCenter.Models;
 using AigioLTemplate.ApiService.AdminCenter.Services;
 using AigioLTemplate.ApiService.Data;
-using AigioLTemplate.ApiService.Models;
 using AigioLTemplate.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;

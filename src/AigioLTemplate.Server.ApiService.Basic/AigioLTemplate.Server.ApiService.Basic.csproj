@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-ms-ba3</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Basic</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

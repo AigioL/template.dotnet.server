@@ -3,12 +3,13 @@ using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Identity.Controllers;
 using AigioL.Common.AspNetCore.AppCenter.Identity.Models;
 using AigioL.Common.AspNetCore.AppCenter.Models;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Data;
-using AigioLTemplate.Server.ApiService.Identity.Models;
+using AigioLTemplate.ApiService.Identity.Models;
+using AigioLTemplate.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -136,6 +137,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
 
     // 添加短信发送提供程序
     builder.Services.AddSmsSenderProvider(appSettings);

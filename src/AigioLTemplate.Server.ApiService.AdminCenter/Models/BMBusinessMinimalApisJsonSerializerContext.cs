@@ -2,7 +2,7 @@ using AigioL.Common.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace AigioLTemplate.ApiService.Models;
+namespace AigioLTemplate.ApiService.AdminCenter.Models;
 
 [JsonSerializable(typeof(ApiRsp))]
 [JsonSourceGenerationOptions]

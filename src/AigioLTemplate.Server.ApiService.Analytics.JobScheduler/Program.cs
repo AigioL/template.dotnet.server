@@ -2,12 +2,14 @@ using AigioL.Common.AspNetCore.AppCenter;
 using AigioL.Common.AspNetCore.AppCenter.Analytics.Jobs;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Analytics.JobScheduler.Models;
+using AigioLTemplate.ApiService.Analytics.JobScheduler.Models;
+using AigioLTemplate.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -125,9 +127,13 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加微服务仓储层服务
     builder.Services.AddAnalyticsRepositories<AppDbContext>();
+    builder.Services.AddActiveUserRecordRepositories<AppDbContext>();
+    builder.Services.AddStatisticsRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
 
     var feishuApiOptionsSection = builder.Configuration.GetSection(nameof(FeishuApiOptions));
     builder.Services.Configure<FeishuApiOptions>(feishuApiOptionsSection);
@@ -219,7 +225,11 @@ static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, string[
     if (!closeFunctions.Contains(nameof(DailyStatisticsJob)))
         config.ScheduleJob<DailyStatisticsJob>(trigger => trigger
         .WithIdentity(nameof(DailyStatisticsJob))
+#if DEBUG
+        .StartAt(DateTimeOffset.Now.AddSeconds(10))
+#else
         .StartAt(DateTime.Now.Hour < 6 ? DateTime.Today.AddHours(6) : DateTime.Today.AddDays(1).AddHours(6))
+#endif
         .WithSimpleSchedule(x => x.WithIntervalInHours(24).RepeatForever())
         .WithDescription("每日数据汇总"));
 

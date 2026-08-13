@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-ms-an7</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Analytics</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

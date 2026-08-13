@@ -4,7 +4,7 @@ using AigioL.Common.AspNetCore.AppCenter.Models.Abstractions;
 using AigioL.Common.SmsSender.Models;
 using AigioL.Common.SmsSender.Models.Abstractions;
 
-namespace AigioLTemplate.Server.ApiService.Identity.Models;
+namespace AigioLTemplate.ApiService.Identity.Models;
 
 public sealed partial class AppSettings : MSAppSettings
 {

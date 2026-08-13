@@ -4,15 +4,13 @@ using AigioL.Common.AspNetCore.AppCenter.Models;
 using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Payment.Jobs;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
-using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Payment.JobScheduler.Models;
-using AigioLTemplate.Server.Services;
+using AigioLTemplate.ApiService.Payment.JobScheduler.Models;
+using AigioLTemplate.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -129,6 +127,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加微服务仓储层服务
     builder.Services.AddPaymentRepositories<AppDbContext>();
+    builder.Services.AddKeyValuePairRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
@@ -228,15 +227,15 @@ static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, string[
         .WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever())
         .WithDescription("刷新微信 AccessToken"));
 
-    if (!closeFunctions.Contains("MerchantDeductionJob"))
-        config.ScheduleJob<MerchantDeductionJob>(trigger => trigger
-        .WithIdentity(nameof(MerchantDeductionJob))
-#if DEBUG
-        .StartNow()
-#else
-        .WithCronSchedule("0 0 9,12,15,18 ? * * *")
-#endif
-        .WithDescription("商家协议扣款"));
+    //    if (!closeFunctions.Contains("MerchantDeductionJob"))
+    //        config.ScheduleJob<MerchantDeductionJob>(trigger => trigger
+    //        .WithIdentity(nameof(MerchantDeductionJob))
+    //#if DEBUG
+    //        .StartNow()
+    //#else
+    //        .WithCronSchedule("0 0 9,12,15,18 ? * * *")
+    //#endif
+    //        .WithDescription("商家协议扣款"));
 
     if (!closeFunctions.Contains("MerchantDeductionAgreementUnSignJob"))
         config.ScheduleJob<MerchantDeductionAgreementUnSignJob>(trigger => trigger

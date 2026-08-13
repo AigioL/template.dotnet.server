@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-job-an7</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Analytics.JobScheduler</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,6 +22,15 @@
 		</Compile>
 		<Compile Include="..\AigioLTemplate.Server.ApiService.AdminCenter\Data\Partials\Analytics\*.cs">
 			<LinkBase>Data\Partials\Analytics</LinkBase>
+		</Compile>
+		<Compile Include="..\AigioLTemplate.Server.ApiService.AdminCenter\Data\Partials\Komaasharus\*.cs">
+			<LinkBase>Data\Partials\Komaasharus</LinkBase>
+		</Compile>
+		<Compile Include="..\AigioLTemplate.Server.ApiService.AdminCenter\Data\Partials\Payment\*.cs">
+			<LinkBase>Data\Partials\Payment</LinkBase>
+		</Compile>
+		<Compile Include="..\AigioLTemplate.Server.ApiService.AdminCenter\Data\Partials\OrderingPayment\*.cs">
+			<LinkBase>Data\Partials\OrderingPayment</LinkBase>
 		</Compile>
 	</ItemGroup>
 

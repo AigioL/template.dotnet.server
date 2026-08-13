@@ -2,15 +2,14 @@ using AigioL.Common.AspNetCore.AppCenter;
 using AigioL.Common.AspNetCore.AppCenter.Analytics.Models;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
-using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Analytics.Models;
-using AigioLTemplate.Server.ApiService.Data;
+using AigioLTemplate.ApiService.Analytics.Models;
+using AigioLTemplate.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -132,6 +131,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
+
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
 
     builder.AddRabbitMQClient(connectionName: "messaging");
 }

@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-job-pa5</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Payment.JobScheduler</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

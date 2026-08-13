@@ -5,16 +5,13 @@ using AigioL.Common.AspNetCore.AppCenter.Ordering.Models;
 using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Payment.Workers;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
-using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Data;
-using AigioLTemplate.Server.ApiService.Payment.Models;
-using AigioLTemplate.Server.Services;
+using AigioLTemplate.ApiService.Payment.Models;
+using AigioLTemplate.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -134,6 +131,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddAppVerCoreService<AppDbContext>();
     builder.Services.AddPaymentRepositories<AppDbContext>();
     builder.AddPaymentServices<AppSettings>();
+    builder.Services.AddKeyValuePairRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
@@ -152,6 +150,18 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddHostedService<MembershipOrderSubscribe.PaymentRefundedWorker>();
     builder.Services.AddHostedService<PaymentRefundSubscribe>();
     builder.Services.AddHostedService<TransferSubscribe>();
+
+    builder.Services.AddHostedService<MembershipOrderSubscribe.AgreementSignWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.AgreementUnSignWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.PaymentSuccessWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.PaidOrderCancelWorker>();
+    builder.Services.AddHostedService<MembershipOrderSubscribe.PaymentRefundedWorker>();
+    builder.Services.AddHostedService<PaymentRefundSubscribe>();
+    builder.Services.AddHostedService<TransferSubscribe>();
+#if USE_PC_USER_WITHDRAWAL
+    builder.Services.AddHostedService<WeChatWithdrawalSubscribe>();
+    builder.Services.AddHostedService<PCUserWithdrawalCompletedSubscribe>();
+#endif
 }
 
 static void Configure(WebApplication app)

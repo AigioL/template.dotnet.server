@@ -24,6 +24,9 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+	<ItemGroup>
+		<Using Include="AigioLTemplate.ApiService.Data" />
+	</ItemGroup>
 
 	<Choose>
 		<When Condition="$(MSBuildProjectName.Contains('JobScheduler'))">
@@ -40,7 +43,6 @@
 				<Using Include="AigioL.Common.AspNetCore.AppCenter.Services.Abstractions" />
 				<Using Include="AigioL.Common.FeishuOApi.Sdk.Services.Abstractions" />
 				<Using Include="AigioL.Common.Models" />
-				<Using Include="AigioLTemplate.Server.ApiService.Data" />
 			</ItemGroup>
 			<ItemGroup>
 				<Compile Include="..\AigioLTemplate.Server.ApiService.AdminCenter\Data\Partials\JobScheduler\*.cs">

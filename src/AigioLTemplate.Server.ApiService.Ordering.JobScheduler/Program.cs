@@ -4,15 +4,13 @@ using AigioL.Common.AspNetCore.AppCenter.Models;
 using AigioL.Common.AspNetCore.AppCenter.Ordering.Jobs;
 using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
-using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Ordering.JobScheduler.Models;
-using AigioLTemplate.Server.Services;
+using AigioLTemplate.ApiService.Ordering.JobScheduler.Models;
+using AigioLTemplate.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -129,6 +127,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     // 添加微服务仓储层服务
     builder.Services.AddOrderingRepositories<AppDbContext>();
+    builder.Services.AddKeyValuePairRepositories<AppDbContext>();
 
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();

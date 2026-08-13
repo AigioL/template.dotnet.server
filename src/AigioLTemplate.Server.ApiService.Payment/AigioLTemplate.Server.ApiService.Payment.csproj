@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-ms-pa5</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Payment</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

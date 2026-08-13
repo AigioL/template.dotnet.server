@@ -17,6 +17,11 @@
 		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 
+	<!-- 👇 全局 DefineConstants 配置 -->
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);USE_NUM_UID</DefineConstants>
+	</PropertyGroup>
+
 	<!-- 👇 TFM != .NET Framework 3.5 -->
 	<PropertyGroup Condition="!$(TargetFramework.StartsWith('net35'))">
 		<ImplicitUsings>true</ImplicitUsings>

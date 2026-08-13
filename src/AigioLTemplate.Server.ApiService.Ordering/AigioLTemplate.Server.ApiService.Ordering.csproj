@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<TargetFramework>net$(DotNet_Version)</TargetFramework>
 		<DockerfileTag>aigioltemplate-api-ms-or6</DockerfileTag>
+		<RootNamespace>AigioLTemplate.ApiService.Ordering</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

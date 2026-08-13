@@ -2,6 +2,7 @@ using AigioL.Common.AspNetCore.AppCenter;
 using AigioL.Common.AspNetCore.AppCenter.Basic.Jobs;
 using AigioL.Common.AspNetCore.AppCenter.Entities;
 using AigioL.Common.AspNetCore.AppCenter.Models;
+using AigioL.Common.AspNetCore.AppCenter.Ordering.Services.Abstractions;
 using AigioL.Common.AspNetCore.AppCenter.Policies.Handlers;
 using AigioL.Common.AspNetCore.AppCenter.Services;
 using AigioL.Common.AspNetCore.Helpers.ProgramMain;
@@ -9,7 +10,8 @@ using AigioL.Common.AspNetCore.Helpers.ProgramMain.Controllers.Infrastructure;
 using AigioL.Common.Extensions.Http.Proxy.Services.Abstractions;
 using AigioL.Common.FeishuOApi.Sdk.Models;
 using AigioL.Common.JsonWebTokens.Models.Abstractions;
-using AigioLTemplate.Server.ApiService.Basic.JobScheduler.Models;
+using AigioLTemplate.ApiService.Basic.JobScheduler.Models;
+using AigioLTemplate.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -133,6 +135,8 @@ static void ConfigureServices(WebApplicationBuilder builder)
     // 添加本地化配置
     builder.Services.ConfigureRequestLocalizationOptions();
 
+    builder.Services.AddSingleton<IOrderBusinessTypeService, OrderBusinessTypeService>();
+
     var feishuApiOptionsSection = builder.Configuration.GetSection(nameof(FeishuApiOptions));
     builder.Services.Configure<FeishuApiOptions>(feishuApiOptionsSection);
     builder.AddFeishuApiClient();
@@ -236,10 +240,10 @@ static void ConfigureQuartz(IServiceCollectionQuartzConfigurator config, string[
         .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
         .WithDescription("每隔 1 分钟刷新一次【广告】列表的缓存"));
 
-    if (!closeFunctions.Contains(nameof(WebProxyPoolExpirationListenerJob)))
-        config.ScheduleJob<WebProxyPoolExpirationListenerJob>(trigger => trigger
-        .WithIdentity(nameof(WebProxyPoolExpirationListenerJob))
-        .StartNow()
-        .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
-        .WithDescription("WebProxyPool 过期代理监听原子清理和计数递减"));
+    //if (!closeFunctions.Contains(nameof(WebProxyPoolExpirationListenerJob)))
+    //    config.ScheduleJob<WebProxyPoolExpirationListenerJob>(trigger => trigger
+    //    .WithIdentity(nameof(WebProxyPoolExpirationListenerJob))
+    //    .StartNow()
+    //    .WithSimpleSchedule(x => x.WithIntervalInMinutes(1).RepeatForever())
+    //    .WithDescription("WebProxyPool 过期代理监听原子清理和计数递减"));
 }
