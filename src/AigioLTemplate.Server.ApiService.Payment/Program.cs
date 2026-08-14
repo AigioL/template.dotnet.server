@@ -104,7 +104,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
     const string connectionStringACKey = "aigioltemplate";
     var connectionStringAC = ProgramHelper.GetConnectionString(connectionStringACKey,
 #if DEBUG
-        "00000000-0000-0000-2507-000000000001",
+        "00000000-0000-0000-2608-000000000008",
         null,
 #endif
         builder);

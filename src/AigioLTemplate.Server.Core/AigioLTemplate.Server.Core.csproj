@@ -65,6 +65,9 @@
 		<EmbeddedResource Include="..\..\res\i18n\Core\Resources.*.resx">
 			<LinkBase>Properties</LinkBase>
 		</EmbeddedResource>
+		<Compile Remove="Data\**" />
+		<EmbeddedResource Remove="Data\**" />
+		<None Remove="Data\**" />
 		<Compile Include="..\..\res\i18n\Core\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -137,7 +140,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Data\Abstractions\" />
 		<Folder Include="Entities\" />
 		<Folder Include="Repositories\Abstractions\" />
 	</ItemGroup>

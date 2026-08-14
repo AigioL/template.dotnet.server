@@ -10,9 +10,11 @@ partial class AppDbContext : IAuthMessageRecordDbContext
     public DbSet<AuthMessageRecord> AuthMessageRecords { get; set; } = null!;
 }
 
-partial class AppDbContext : IIdentityDbContext { }
+partial class AppDbContext : IIdentityDbContext
+{
+}
 
-#if PROJ_DBCONTEXT_BM
+#if PROJ_DBCONTEXT_BM || PROJ_DBCONTEXT_PC
 partial class AppDbContext
 {
     #region 用户模块

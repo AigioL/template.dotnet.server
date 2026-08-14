@@ -7,7 +7,7 @@ namespace AigioLTemplate.ApiService.Data;
 
 partial class AppDbContext : IAppDbContextBase
 {
-#if PROJ_DBCONTEXT_BM
+#if PROJ_DBCONTEXT_BM || PROJ_DBCONTEXT_PC
     public DbSet<User> ACUsers { get; set; } = null!;
 
     DbSet<User> IAppDbContextBase.Users => ACUsers;

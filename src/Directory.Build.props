@@ -17,6 +17,11 @@
 		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 
+	<!-- 👇 .NET 11+ 配置 -->
+	<PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))">
+		<Features>$(Features);runtime-async=on</Features>
+	</PropertyGroup>
+
 	<!-- 👇 全局 DefineConstants 配置 -->
 	<PropertyGroup>
 		<DefineConstants>$(DefineConstants);USE_NUM_UID</DefineConstants>
