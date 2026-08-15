@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net$(DotNet_Version)</TargetFramework>
+		<TargetFrameworks>net$(DotNet_Version)</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -4,7 +4,7 @@
 	<Import Project="..\ApiService.Docker.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net$(DotNet_Version)</TargetFramework>
+		<TargetFrameworks>net$(DotNet_Version)</TargetFrameworks>
 		<DockerfileTag>aigioltemplate-api-oa6</DockerfileTag>
 		<RootNamespace>AigioLTemplate.ApiService.OpenApi</RootNamespace>
 	</PropertyGroup>

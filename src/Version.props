@@ -8,26 +8,13 @@
 
 	<!-- 👇 当前项目依赖的版本号配置 -->
 	<PropertyGroup>
+		<!--👇 首选 .NET 版本号 -->
+		<DotNet_Version>11.0</DotNet_Version>
 		<!--👇 Win10/11 SDK 版本，值不可小于 10.0.x -->
 		<WinSDK_Version>10.0.19041.0</WinSDK_Version>
 		<!--👇 Aspire.AppHost.Sdk https://www.nuget.org/packages/Aspire.AppHost.Sdk#versions-body-tab -->
 		<Aspire_AppHost_Sdk_Version>13.4.4</Aspire_AppHost_Sdk_Version>
 	</PropertyGroup>
-
-	<Choose>
-		<When Condition="$([MSBuild]::VersionLessThan($(MSBuildVersion), '18.0'))">
-			<PropertyGroup>
-				<DotNet_Version>9.0</DotNet_Version>
-			</PropertyGroup>
-		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<!--👇 首选 .NET 版本号 -->
-				<DotNet_Version>10.0</DotNet_Version>
-				<!--<DotNet_Version>11.0</DotNet_Version>-->
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
 
 	<Choose>
 		<When Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -58,6 +45,7 @@
 			<PropertyGroup>
 				<!--👇 https://github.com/dotnet/maui/blob/main/src/Templates/src/templates/maui-mobile/MauiApp.1.csproj#L43-->
 				<SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+				<SupportedOSPlatformVersion Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0'))">24</SupportedOSPlatformVersion>
 			</PropertyGroup>
 		</When>
 	</Choose>
